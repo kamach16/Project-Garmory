@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 4817595836124869674}
   - component: {fileID: 4084295181816705654}
   - component: {fileID: 667478676274624010}
+  - component: {fileID: 8957815638668448509}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -281,6 +282,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 15
   mouseSensitivity: 300
-  inputMultiplier: 10
-  jumpForce: 5
+  moveAcceleration: 300
   playerRigidbody: {fileID: 4817595836124869674}
+  playerCamera: {fileID: 667478675497273517}
+--- !u!114 &8957815638668448509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667478676274624015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeb047f43c1fbe64d9aec38306476d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 4
+  damage: 16
+  playerCamera: {fileID: 667478675497273517}

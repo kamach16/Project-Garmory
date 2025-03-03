@@ -7,18 +7,14 @@ public class PlayerMovement : MonoBehaviour
     [Header("Moving")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float mouseSensitivity;
-    [SerializeField] private float inputMultiplier;
-
-    [Header("Jumping")]
-    [SerializeField] private float jumpForce;
+    [SerializeField] private float moveAcceleration;
 
     [Header("Components")]
     [SerializeField] private Rigidbody playerRigidbody;
+    [SerializeField] private Transform playerCamera;
 
     private Vector2 currentInput = Vector2.zero;
     private Vector3 moveDirection;
-
-    private Camera mainCamera;
 
     private float xRotation = 0f;
 
@@ -29,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Initialize()
     {
-        mainCamera = Camera.main;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -54,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
         currentInput = Vector2.Lerp(
             currentInput,
             targetInput,
-            inputMultiplier * Time.fixedDeltaTime
+            moveAcceleration * Time.fixedDeltaTime
         );
 
         moveDirection = transform.right * currentInput.x + transform.forward * currentInput.y;
@@ -75,6 +70,6 @@ public class PlayerMovement : MonoBehaviour
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        mainCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
 }
