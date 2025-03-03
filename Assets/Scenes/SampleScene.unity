@@ -815,26 +815,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 667478675497273518, guid: e574bb55d5ab23342be6dbc592dbcbad,
-        type: 3}
-      propertyPath: m_BackGroundColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 667478675497273518, guid: e574bb55d5ab23342be6dbc592dbcbad,
-        type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 667478675497273518, guid: e574bb55d5ab23342be6dbc592dbcbad,
-        type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 667478675497273518, guid: e574bb55d5ab23342be6dbc592dbcbad,
-        type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 667478676274624011, guid: e574bb55d5ab23342be6dbc592dbcbad,
         type: 3}
       propertyPath: m_RootOrder

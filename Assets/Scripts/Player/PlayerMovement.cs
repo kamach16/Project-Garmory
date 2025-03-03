@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private void Initialize()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void Update()
