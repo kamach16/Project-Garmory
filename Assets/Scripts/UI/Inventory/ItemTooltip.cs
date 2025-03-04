@@ -40,11 +40,11 @@ public class ItemTooltip : MonoBehaviour
         damageText.text = $"DAMAGE: {currentItemData.Damage}";
         healthPointsText.text = $"HP: {currentItemData.HealthPoints}";
         defenseText.text = $"DEFENSE: {currentItemData.Defense}";
-        lifeStealText.text = $"LIFE STEAL: {currentItemData.LifeSteal}";
-        criticalStrikeChanceText.text = $"CRIT CHANCE: {currentItemData.CriticalStrikeChance}";
-        attackSpeedText.text = $"ATTACK SPEED: {currentItemData.AttackSpeed}";
-        movementSpeedText.text = $"MOVE SPEED: {currentItemData.MovementSpeed}";
-        luckText.text = $"LUCK: {currentItemData.Luck}";
+        lifeStealText.text = $"LIFE STEAL: {currentItemData.LifeSteal}%";
+        criticalStrikeChanceText.text = $"CRIT CHANCE: {currentItemData.CriticalStrikeChance}%";
+        attackSpeedText.text = $"ATTACK SPEED: {currentItemData.AttackSpeed}%";
+        movementSpeedText.text = $"MOVE SPEED: {currentItemData.MovementSpeed}%";
+        luckText.text = $"LUCK: {currentItemData.Luck}%";
     }
 
     public void HideTooltip()

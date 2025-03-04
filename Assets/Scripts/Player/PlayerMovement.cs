@@ -7,12 +7,14 @@ public abstract class PlayerMovement : PlayerBase
     [Header("Moving")]
     [SerializeField] private float mouseSensitivity;
     [SerializeField] private float moveAcceleration;
-    public bool isGrounded;
+    [SerializeField] private float moveSpeed;
 
     private Vector2 currentInput = Vector2.zero;
     private Vector3 moveDirection;
 
     private float xRotation = 0f;
+
+    private bool isGrounded;
 
     protected void InitializeMovement()
     {
@@ -32,7 +34,7 @@ public abstract class PlayerMovement : PlayerBase
             moveAcceleration * Time.fixedDeltaTime
         );
 
-        moveDirection = transform.right * currentInput.x + transform.forward * currentInput.y;
+        moveDirection = (transform.right * currentInput.x + transform.forward * currentInput.y).normalized;
     }
 
     protected void Move()
@@ -40,7 +42,7 @@ public abstract class PlayerMovement : PlayerBase
         if (!isInitialized)
             return;
 
-        PlayerRigidbody.velocity = new Vector3(moveDirection.x * DataModel.MovementSpeed, PlayerRigidbody.velocity.y, moveDirection.z * DataModel.MovementSpeed);
+        PlayerRigidbody.velocity = new Vector3(moveDirection.x * moveSpeed, PlayerRigidbody.velocity.y, moveDirection.z * moveSpeed);
     }
 
     protected void CheckIsGrounded()

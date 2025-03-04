@@ -37,6 +37,8 @@ public class InventoryPanel : MonoBehaviour
     private Player player;
     private List<Sprite> itemSprites = new List<Sprite>();
 
+    private bool isOpened;
+
     private void OnDestroy()
     {
         playButton.onClick.RemoveListener(PlayButton_OnClick);
@@ -52,6 +54,8 @@ public class InventoryPanel : MonoBehaviour
         playButton.onClick.AddListener(PlayButton_OnClick);
 
         InitializeItems();
+
+        Show();
     }
 
     private void InitializeItems()
@@ -172,6 +176,31 @@ public class InventoryPanel : MonoBehaviour
 
         gameObject.SetActive(false);
         crosshair.SetActive(true);
+
+        isOpened = false;
+    }
+
+    private void Show()
+    {
+        Time.timeScale = 0;
+
+        GameManager.Instance.ChangeCurrentGameState(GameState.Paused);
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        gameObject.SetActive(true);
+        crosshair.SetActive(false);
+
+        isOpened = true;
+    }
+
+    public void InteractWithPanel()
+    {
+        if (isOpened)
+            Hide();
+        else
+            Show();
     }
 
     private void ResetItemSlotPosition(ItemSlot item)
@@ -191,10 +220,10 @@ public class InventoryPanel : MonoBehaviour
         damageText.text = $"DAMAGE: {playerDataModel.Damage}";
         healthPointsText.text = $"HP: {playerDataModel.HealthPoints}";
         defenseText.text = $"DEFENSE: {playerDataModel.Defense}";
-        lifeStealText.text = $"LIFE STEAL: {playerDataModel.LifeSteal}";
-        criticalStrikeChanceText.text = $"CRIT CHANCE: {playerDataModel.CriticalStrikeChance}";
-        attackSpeedText.text = $"ATTACK SPEED: {playerDataModel.AttackSpeed}";
-        movementSpeedText.text = $"MOVE SPEED: {playerDataModel.MovementSpeed}";
-        luckText.text = $"LUCK: {playerDataModel.Luck}";
+        lifeStealText.text = $"LIFE STEAL: {playerDataModel.LifeSteal}%";
+        criticalStrikeChanceText.text = $"CRIT CHANCE: {playerDataModel.CriticalStrikeChance}%";
+        attackSpeedText.text = $"ATTACK SPEED: {playerDataModel.AttackSpeed}%";
+        movementSpeedText.text = $"MOVE SPEED: {playerDataModel.MovementSpeed}%";
+        luckText.text = $"LUCK: {playerDataModel.Luck}%";
     }
 }

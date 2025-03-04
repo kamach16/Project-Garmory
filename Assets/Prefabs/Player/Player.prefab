@@ -590,5 +590,5 @@ MonoBehaviour:
   animator: {fileID: 7016213585903072540}
   mouseSensitivity: 250
   moveAcceleration: 300
-  isGrounded: 0
+  moveSpeed: 20
   attackRange: 2.5

@@ -50,5 +50,5 @@ MonoBehaviour:
   lifeSteal: 0
   criticalStrikeChance: 0
   attackSpeed: 0
-  movementSpeed: 1
+  movementSpeed: 0
   luck: 0
