@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
-public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [SerializeField] private Image itemImage;
     [SerializeField] private RectTransform rectTransform;
@@ -12,12 +13,25 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private ItemTooltip itemTooltip;
     private ItemData itemData;
 
+    private bool isEquipped = false;
+
+    public bool IsEquipped => isEquipped;
+
+    public event Action<ItemSlot> OnClick;
+
     public void Initialize(Sprite sprite, ItemTooltip itemTooltip, ItemData itemData)
     {
         this.itemTooltip = itemTooltip;
         this.itemData = itemData;
 
         itemImage.sprite = sprite;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        OnClick?.Invoke(this);
+
+        isEquipped = !isEquipped;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

@@ -14,4 +14,5 @@ public abstract class PlayerBase : MonoBehaviour
     protected Animator Animator => animator;
 
     public PlayerDataModel DataModel { get; protected set; }
+    public bool isInitialized { get; protected set; }
 }

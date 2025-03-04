@@ -7,10 +7,20 @@ using UnityEngine.UI;
 public class InventoryPanel : MonoBehaviour
 {
     [SerializeField] private GameObject itemSlotPrefab;
+
+    [Header("Components")]
     [SerializeField] private Transform itemsParent;
     [SerializeField] private Button playButton;
     [SerializeField] private GameObject crosshair;
     [SerializeField] private ItemTooltip itemTooltip;
+
+    [Header("Character items slot")]
+    [SerializeField] private Transform helmetSlot;
+    [SerializeField] private Transform necklaceSlot;
+    [SerializeField] private Transform armorSlot;
+    [SerializeField] private Transform bootsSlot;
+    [SerializeField] private Transform ringSlot;
+    [SerializeField] private Transform weaponSlot;
 
     private List<ItemData> items = new List<ItemData>();
     private Player player;
@@ -35,13 +45,55 @@ public class InventoryPanel : MonoBehaviour
 
     private void InitializeItems()
     {
+        foreach (Transform child in itemsParent)
+        {
+            Destroy(child.gameObject);
+        }
+
         foreach (var item in items)
         {
             ItemSlot newItem = Instantiate(itemSlotPrefab, itemsParent).GetComponent<ItemSlot>();
             Sprite itemSprite = itemSprites.FirstOrDefault(x => x.name == item.Name);
 
+            newItem.OnClick += x => ItemSlot_OnClick(x, item);
+
             newItem.Initialize(itemSprite, itemTooltip, item);
         }
+    }
+
+    private void ItemSlot_OnClick(ItemSlot item, ItemData itemData)
+    {
+        Transform newParent = null;
+        
+        switch (itemData.Category)
+        {
+            case "Armor":
+                newParent = armorSlot;
+                break;
+            case "Boots":
+                newParent = bootsSlot;
+                break;
+            case "Helmet":
+                newParent = helmetSlot;
+                break;
+            case "Necklace":
+                newParent = necklaceSlot;
+                break;
+            case "Ring":
+                newParent = ringSlot;
+                break;
+            case "Weapon":
+                newParent = weaponSlot;
+                break;
+            default:
+                break;
+        }
+
+        if (item.IsEquipped)
+            newParent = itemsParent;
+
+        item.transform.SetParent(newParent);
+        ResetItemSlotPosition(item);
     }
 
     private void PlayButton_OnClick()
@@ -60,14 +112,15 @@ public class InventoryPanel : MonoBehaviour
 
         gameObject.SetActive(false);
         crosshair.SetActive(true);
+    }
 
-        //print(player.DataModel.Damage);
-        //print(player.DataModel.HealthPoints);
-        //print(player.DataModel.Defense);
-        //print(player.DataModel.LifeSteal);
-        //print(player.DataModel.CriticalStrikeChance);
-        //print(player.DataModel.AttackSpeed);
-        //print(player.DataModel.MovementSpeed);
-        //print(player.DataModel.Luck);
+    private void ResetItemSlotPosition(ItemSlot item)
+    {
+        RectTransform itemRectTransform = item.GetComponent<RectTransform>();
+
+        itemRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+        itemRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+
+        itemRectTransform.anchoredPosition = Vector2.zero;
     }
 }

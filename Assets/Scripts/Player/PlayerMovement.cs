@@ -5,7 +5,6 @@ using UnityEngine;
 public abstract class PlayerMovement : PlayerBase
 {
     [Header("Moving")]
-    [SerializeField] private float moveSpeed;
     [SerializeField] private float mouseSensitivity;
     [SerializeField] private float moveAcceleration;
 
@@ -37,7 +36,10 @@ public abstract class PlayerMovement : PlayerBase
 
     protected void Move()
     {
-        PlayerRigidbody.velocity = new Vector3(moveDirection.x * moveSpeed, PlayerRigidbody.velocity.y, moveDirection.z * moveSpeed);
+        if (!isInitialized)
+            return;
+
+        PlayerRigidbody.velocity = new Vector3(moveDirection.x * DataModel.MovementSpeed, PlayerRigidbody.velocity.y, moveDirection.z * DataModel.MovementSpeed);
     }
 
     protected void CameraRotation()

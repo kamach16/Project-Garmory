@@ -6,7 +6,6 @@ public abstract class PlayerCombat : PlayerMovement
 {
     [Header("Attacking")]
     [SerializeField] private float attackRange;
-    [SerializeField] private int damage;
 
     protected void InitializeCombat()
     {
@@ -31,7 +30,7 @@ public abstract class PlayerCombat : PlayerMovement
             IKillable killable = hit.transform.GetComponent<IKillable>();
 
             if (killable != null)
-                killable.DealDamage(damage);
+                killable.DealDamage(DataModel.Damage);
         }
     }
 }

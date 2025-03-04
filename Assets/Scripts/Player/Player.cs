@@ -7,6 +7,7 @@ public class Player : PlayerCombat
     public void Initialize(PlayerDataModel DataModel)
     {
         this.DataModel = DataModel;
+        isInitialized = true;
 
         InitializeCombat();
         InitializeMovement();
