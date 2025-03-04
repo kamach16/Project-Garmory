@@ -18,7 +18,7 @@ Aplikacja zawiera system ekwipunku oraz rozgrywkę 3D, wykorzystując przedmioty
 
 ### 🌍 **Rozgrywka 3D**  
 - Mechanika bazująca na wybranych atrybutach przedmiotów  
-- Wykorzystanie co najmniej jednego z wymaganych atrybutów – **wybrałem `Damage`**  
+- Wykorzystanie co najmniej jednego z wymaganych atrybutów – wybrałem `Damage`  
 - Jedna scena w projekcie: **`SampleScene`**  
 - Możliwość otworzenia ekwipunku przy użyciu przycisku **"I"**  
 
