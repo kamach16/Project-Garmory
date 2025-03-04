@@ -12,6 +12,7 @@ public class InventoryPanel : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Transform itemsParent;
     [SerializeField] private Button playButton;
+    [SerializeField] private TextMeshProUGUI playButtonText;
     [SerializeField] private GameObject crosshair;
     [SerializeField] private ItemTooltip itemTooltip;
 
@@ -38,6 +39,7 @@ public class InventoryPanel : MonoBehaviour
     private List<Sprite> itemSprites = new List<Sprite>();
 
     private bool isOpened;
+    private bool startedGame = false;
 
     private void OnDestroy()
     {
@@ -135,6 +137,12 @@ public class InventoryPanel : MonoBehaviour
     private void PlayButton_OnClick()
     {
         Hide();
+
+        if (!startedGame) // condition for entering the game
+        {
+            playButtonText.text = "Back to dungeon";
+            startedGame = true;
+        }
     }
 
     private void EquipItem(ItemData itemData)
@@ -167,6 +175,9 @@ public class InventoryPanel : MonoBehaviour
 
     public void InteractWithPanel()
     {
+        if (!startedGame)
+            return;
+
         if (isOpened)
             Hide();
         else

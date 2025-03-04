@@ -1239,7 +1239,7 @@ GameObject:
   - component: {fileID: 1587224665207775555}
   - component: {fileID: 6025032512643066356}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2961,6 +2961,7 @@ MonoBehaviour:
     type: 3}
   itemsParent: {fileID: 5214810922148629047}
   playButton: {fileID: 1818173615551710717}
+  playButtonText: {fileID: 6025032512643066356}
   crosshair: {fileID: 417228910920949228}
   itemTooltip: {fileID: 8382027897177906717}
   helmetSlot: {fileID: 4770409246913641557}
