@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,16 @@ public class InventoryPanel : MonoBehaviour
     [SerializeField] private Transform bootsSlot;
     [SerializeField] private Transform ringSlot;
     [SerializeField] private Transform weaponSlot;
+
+    [Header("Stats")]
+    [SerializeField] private TextMeshProUGUI damageText;
+    [SerializeField] private TextMeshProUGUI healthPointsText;
+    [SerializeField] private TextMeshProUGUI defenseText;
+    [SerializeField] private TextMeshProUGUI lifeStealText;
+    [SerializeField] private TextMeshProUGUI criticalStrikeChanceText;
+    [SerializeField] private TextMeshProUGUI attackSpeedText;
+    [SerializeField] private TextMeshProUGUI movementSpeedText;
+    [SerializeField] private TextMeshProUGUI luckText;
 
     private List<ItemData> items = new List<ItemData>();
     private Player player;
@@ -59,6 +70,8 @@ public class InventoryPanel : MonoBehaviour
 
             newItem.Initialize(itemSprite, itemTooltip, item);
         }
+
+        UpdateCharacterStatsTexts();
     }
 
     private void ItemSlot_OnClick(ItemSlot item, ItemData itemData)
@@ -111,6 +124,8 @@ public class InventoryPanel : MonoBehaviour
 
         item.transform.SetParent(newParent);
         ResetItemSlotPosition(item);
+
+        UpdateCharacterStatsTexts();
     }
 
     private void EquipItem(ItemData itemData)
@@ -167,5 +182,19 @@ public class InventoryPanel : MonoBehaviour
         itemRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
 
         itemRectTransform.anchoredPosition = Vector2.zero;
+    }
+
+    private void UpdateCharacterStatsTexts()
+    {
+        PlayerDataModel playerDataModel = player.DataModel;
+
+        damageText.text = $"DAMAGE: {playerDataModel.Damage}";
+        healthPointsText.text = $"HP: {playerDataModel.HealthPoints}";
+        defenseText.text = $"DEFENSE: {playerDataModel.Defense}";
+        lifeStealText.text = $"LIFE STEAL: {playerDataModel.LifeSteal}";
+        criticalStrikeChanceText.text = $"CRIT CHANCE: {playerDataModel.CriticalStrikeChance}";
+        attackSpeedText.text = $"ATTACK SPEED: {playerDataModel.AttackSpeed}";
+        movementSpeedText.text = $"MOVE SPEED: {playerDataModel.MovementSpeed}";
+        luckText.text = $"LUCK: {playerDataModel.Luck}";
     }
 }

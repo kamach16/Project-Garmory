@@ -19,6 +19,8 @@ public class Player : PlayerCombat
         CameraRotation();
         MoveInput();
         Attack();
+        CheckIsGrounded();
+        Jump();
     }
 
     private void FixedUpdate()

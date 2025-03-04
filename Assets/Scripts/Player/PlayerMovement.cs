@@ -7,6 +7,7 @@ public abstract class PlayerMovement : PlayerBase
     [Header("Moving")]
     [SerializeField] private float mouseSensitivity;
     [SerializeField] private float moveAcceleration;
+    public bool isGrounded;
 
     private Vector2 currentInput = Vector2.zero;
     private Vector3 moveDirection;
@@ -40,6 +41,23 @@ public abstract class PlayerMovement : PlayerBase
             return;
 
         PlayerRigidbody.velocity = new Vector3(moveDirection.x * DataModel.MovementSpeed, PlayerRigidbody.velocity.y, moveDirection.z * DataModel.MovementSpeed);
+    }
+
+    protected void CheckIsGrounded()
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, 2))
+            isGrounded = true;
+        else
+            isGrounded = false;
+    }
+
+    protected void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            PlayerRigidbody.AddForce(Vector3.up * 10, ForceMode.Impulse);
+            isGrounded = false;
+        }
     }
 
     protected void CameraRotation()
