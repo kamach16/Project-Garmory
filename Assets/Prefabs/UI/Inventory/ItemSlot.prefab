@@ -167,3 +167,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemImage: {fileID: 437236613928363243}
+  rectTransform: {fileID: 1832895474872881816}

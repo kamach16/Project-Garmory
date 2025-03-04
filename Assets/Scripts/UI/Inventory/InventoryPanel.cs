@@ -10,6 +10,7 @@ public class InventoryPanel : MonoBehaviour
     [SerializeField] private Transform itemsParent;
     [SerializeField] private Button playButton;
     [SerializeField] private GameObject crosshair;
+    [SerializeField] private ItemTooltip itemTooltip;
 
     private List<ItemData> items = new List<ItemData>();
     private Player player;
@@ -37,7 +38,9 @@ public class InventoryPanel : MonoBehaviour
         foreach (var item in items)
         {
             ItemSlot newItem = Instantiate(itemSlotPrefab, itemsParent).GetComponent<ItemSlot>();
-            newItem.Initialize(itemSprites.FirstOrDefault(x => x.name == item.Name));
+            Sprite itemSprite = itemSprites.FirstOrDefault(x => x.name == item.Name);
+
+            newItem.Initialize(itemSprite, itemTooltip, item);
         }
     }
 
