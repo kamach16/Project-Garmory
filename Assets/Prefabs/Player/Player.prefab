@@ -591,4 +591,4 @@ MonoBehaviour:
   mouseSensitivity: 250
   moveAcceleration: 300
   moveSpeed: 20
-  attackRange: 2.5
+  attackRange: 4

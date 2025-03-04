@@ -1,0 +1,53 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Enemy : MonoBehaviour, IKillable
+{
+    [SerializeField] private float healthPoints;
+    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private Animator animator;
+
+    private float maxHealth;
+    private bool isDead;
+
+    private void Start()
+    {
+        healthPoints = Random.Range(50, 100);
+        maxHealth = healthPoints;
+    }
+
+    private void Update()
+    {
+        RotateToPlayer();
+    }
+
+    private void RotateToPlayer()
+    {
+        if (isDead)
+            return;
+
+        Vector3 lookDirection = transform.position - Camera.main.transform.position;
+        lookDirection.y = 0;
+
+        transform.rotation = Quaternion.LookRotation(lookDirection);
+    }
+
+    public void DealDamage(int damage)
+    {
+        if (isDead)
+            return;
+
+        healthPoints -= damage;
+
+        healthBar.UpdateHealthBar(healthPoints, maxHealth);
+
+        if (healthPoints <= 0)
+        {
+            animator.SetBool("death", true);
+            healthBar.gameObject.SetActive(false);
+            isDead = true;
+
+        }
+    }
+}
