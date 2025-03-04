@@ -15,9 +15,15 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private bool isEquipped = false;
 
-    public bool IsEquipped => isEquipped;
+    public bool IsEquipped
+    {
+        get { return isEquipped; }
+        set { isEquipped = value; }
+    }
 
     public event Action<ItemSlot> OnClick;
+
+    public ItemData ItemData => itemData;
 
     public void Initialize(Sprite sprite, ItemTooltip itemTooltip, ItemData itemData)
     {

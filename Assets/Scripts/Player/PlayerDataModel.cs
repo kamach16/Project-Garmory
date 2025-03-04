@@ -18,22 +18,31 @@ public class PlayerDataModel
         float movementSpeed,
         float luck)
     {
-        ChangeDamage(damage);
-        ChangeHealthPoints(healthPoints);
-        ChangeDefense(defense);
-        ChangeLifeSteal(lifeSteal);
-        ChangeCriticalStrikeChance(criticalStrikeChance);
-        ChangeAttackSpeed(attackSpeed);
-        ChangeMovementSpeed(movementSpeed);
-        ChangeLuck(luck);
+        SetDamage(damage);
+        SetHealthPoints(healthPoints);
+        SetDefense(defense);
+        SetLifeSteal(lifeSteal);
+        SetCriticalStrikeChance(criticalStrikeChance);
+        SetAttackSpeed(attackSpeed);
+        SetMovementSpeed(movementSpeed);
+        SetLuck(luck);
     }
 
-    public void ChangeDamage(int newDamage) => this.Damage = newDamage;
-    public void ChangeHealthPoints(int newHealthPoints) => this.HealthPoints = newHealthPoints;
-    public void ChangeDefense(int newDefense) => this.Defense = newDefense;
-    public void ChangeLifeSteal(float newLifeSteal) => this.LifeSteal = newLifeSteal;
-    public void ChangeCriticalStrikeChance(float newCriticalStrikeChance) => this.CriticalStrikeChance = newCriticalStrikeChance;
-    public void ChangeAttackSpeed(float newAttackSpeed) => this.AttackSpeed = newAttackSpeed;
-    public void ChangeMovementSpeed(float newMovementSpeed) => this.MovementSpeed = newMovementSpeed;
-    public void ChangeLuck(float newLuck) => this.Luck = newLuck;
+    public void SetDamage(int newDamage) => this.Damage = newDamage;
+    public void SetHealthPoints(int newHealthPoints) => this.HealthPoints = newHealthPoints;
+    public void SetDefense(int newDefense) => this.Defense = newDefense;
+    public void SetLifeSteal(float newLifeSteal) => this.LifeSteal = newLifeSteal;
+    public void SetCriticalStrikeChance(float newCriticalStrikeChance) => this.CriticalStrikeChance = newCriticalStrikeChance;
+    public void SetAttackSpeed(float newAttackSpeed) => this.AttackSpeed = newAttackSpeed;
+    public void SetMovementSpeed(float newMovementSpeed) => this.MovementSpeed = newMovementSpeed;
+    public void SetLuck(float newLuck) => this.Luck = newLuck;
+
+    public void ModifyDamage(int newDamage) => this.Damage += newDamage;
+    public void ModifyHealthPoints(int newHealthPoints) => this.HealthPoints += newHealthPoints;
+    public void ModifyDefense(int newDefense) => this.Defense += newDefense;
+    public void ModifyLifeSteal(float newLifeSteal) => this.LifeSteal += newLifeSteal;
+    public void ModifyCriticalStrikeChance(float newCriticalStrikeChance) => this.CriticalStrikeChance += newCriticalStrikeChance;
+    public void ModifyAttackSpeed(float newAttackSpeed) => this.AttackSpeed += newAttackSpeed;
+    public void ModifyMovementSpeed(float newMovementSpeed) => this.MovementSpeed += newMovementSpeed;
+    public void ModifyLuck(float newLuck) => this.Luck += newLuck;
 }

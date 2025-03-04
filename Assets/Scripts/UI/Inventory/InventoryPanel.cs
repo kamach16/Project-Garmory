@@ -64,36 +64,81 @@ public class InventoryPanel : MonoBehaviour
     private void ItemSlot_OnClick(ItemSlot item, ItemData itemData)
     {
         Transform newParent = null;
-        
-        switch (itemData.Category)
-        {
-            case "Armor":
-                newParent = armorSlot;
-                break;
-            case "Boots":
-                newParent = bootsSlot;
-                break;
-            case "Helmet":
-                newParent = helmetSlot;
-                break;
-            case "Necklace":
-                newParent = necklaceSlot;
-                break;
-            case "Ring":
-                newParent = ringSlot;
-                break;
-            case "Weapon":
-                newParent = weaponSlot;
-                break;
-            default:
-                break;
-        }
 
-        if (item.IsEquipped)
+        if (!item.IsEquipped)
+        {
+            switch (itemData.Category)
+            {
+                case "Armor":
+                    newParent = armorSlot;
+                    break;
+                case "Boots":
+                    newParent = bootsSlot;
+                    break;
+                case "Helmet":
+                    newParent = helmetSlot;
+                    break;
+                case "Necklace":
+                    newParent = necklaceSlot;
+                    break;
+                case "Ring":
+                    newParent = ringSlot;
+                    break;
+                case "Weapon":
+                    newParent = weaponSlot;
+                    break;
+                default:
+                    break;
+            }
+
+            if (newParent.childCount > 0) // override character item slot
+            {
+                ItemSlot itemToDequip = newParent.GetChild(0).GetComponent<ItemSlot>();
+
+                itemToDequip.transform.SetParent(itemsParent);
+                DequipItem(itemToDequip.ItemData);
+                itemToDequip.IsEquipped = false;
+            }
+
+            EquipItem(itemData);
+        }
+        else
+        {
             newParent = itemsParent;
+
+            DequipItem(itemData);
+        }
 
         item.transform.SetParent(newParent);
         ResetItemSlotPosition(item);
+    }
+
+    private void EquipItem(ItemData itemData)
+    {
+        PlayerDataModel playerDataModel = player.DataModel;
+
+        playerDataModel.ModifyDamage(itemData.Damage);
+        playerDataModel.ModifyHealthPoints(itemData.HealthPoints);
+        playerDataModel.ModifyDefense(itemData.Defense);
+        playerDataModel.ModifyLifeSteal(itemData.LifeSteal);
+        playerDataModel.ModifyCriticalStrikeChance(itemData.CriticalStrikeChance);
+        playerDataModel.ModifyAttackSpeed(itemData.AttackSpeed);
+        playerDataModel.ModifyMovementSpeed(itemData.MovementSpeed);
+        playerDataModel.ModifyLuck(itemData.Luck);
+    }
+
+    private void DequipItem(ItemData itemData)
+    {
+        PlayerDataModel playerDataModel = player.DataModel;
+
+        playerDataModel.ModifyDamage(-itemData.Damage);
+        playerDataModel.ModifyHealthPoints(-itemData.HealthPoints);
+        playerDataModel.ModifyDefense(-itemData.Defense);
+        playerDataModel.ModifyLifeSteal(-itemData.LifeSteal);
+        playerDataModel.ModifyCriticalStrikeChance(-itemData.CriticalStrikeChance);
+        playerDataModel.ModifyAttackSpeed(-itemData.AttackSpeed);
+        playerDataModel.ModifyMovementSpeed(-itemData.MovementSpeed);
+        playerDataModel.ModifyLuck(-itemData.Luck);
     }
 
     private void PlayButton_OnClick()
