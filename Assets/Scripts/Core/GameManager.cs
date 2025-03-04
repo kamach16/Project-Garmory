@@ -5,12 +5,23 @@ using System.Threading.Tasks;
 
 public class GameManager : Singleton<GameManager>
 {
-    public GameState CurrentGameState { get; private set; }
+    [Header("Base Player Stats")]
+    [SerializeField] private int damage;
+    [SerializeField] private int healthPoints;
+    [SerializeField] private int defense;
+    [SerializeField] private float lifeSteal;
+    [SerializeField] private float criticalStrikeChance;
+    [SerializeField] private float attackSpeed;
+    [SerializeField] private float movementSpeed;
+    [SerializeField] private float luck;
 
     private List<ItemData> items = new List<ItemData>();
     private Player player;
     private WaitingScreen waitingScreen;
     private PanelsManager panelsManager;
+
+
+    public GameState CurrentGameState { get; private set; }
 
     protected override void Awake()
     {
@@ -45,8 +56,22 @@ public class GameManager : Singleton<GameManager>
 
     private void InitializeSystems() // execute always after "GetAllItemsList" method
     {
-        player.Initialize();
+        InitializePlayer();
         panelsManager.Initialize(items, player);
+    }
+
+    private void InitializePlayer()
+    {
+        PlayerDataModel newPlayer = new PlayerDataModel(damage,
+            healthPoints,
+            defense,
+            lifeSteal,
+            criticalStrikeChance,
+            attackSpeed,
+            movementSpeed,
+            luck);
+
+        player.Initialize(newPlayer);
     }
 
     private async Task<List<ItemData>> GetAllItemsList()

@@ -57,5 +57,14 @@ public class InventoryPanel : MonoBehaviour
 
         gameObject.SetActive(false);
         crosshair.SetActive(true);
+
+        //print(player.DataModel.Damage);
+        //print(player.DataModel.HealthPoints);
+        //print(player.DataModel.Defense);
+        //print(player.DataModel.LifeSteal);
+        //print(player.DataModel.CriticalStrikeChance);
+        //print(player.DataModel.AttackSpeed);
+        //print(player.DataModel.MovementSpeed);
+        //print(player.DataModel.Luck);
     }
 }

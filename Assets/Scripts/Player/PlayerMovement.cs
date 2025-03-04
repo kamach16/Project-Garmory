@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayerMovement : PlayerComponents
+public abstract class PlayerMovement : PlayerBase
 {
     [Header("Moving")]
     [SerializeField] private float moveSpeed;

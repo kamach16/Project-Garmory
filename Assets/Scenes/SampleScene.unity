@@ -122,18 +122,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &129624526 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5440829357567287364, guid: b8bcbb6c207e8b34c827d3ba9f63771b,
-    type: 3}
-  m_PrefabInstance: {fileID: 417228911089445318}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7f5855e5e21b40449cd8b64a6c6958d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,8 +334,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9965c68dda0e15a4c90fe8ab17a913ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryPanel: {fileID: 1460993940}
-  waitingScreen: {fileID: 129624526}
+  damage: 1
+  healthPoints: 2
+  defense: 3
+  lifeSteal: 4
+  criticalStrikeChance: 5
+  attackSpeed: 6
+  movementSpeed: 7
+  luck: 8
 --- !u!4 &666318965
 Transform:
   m_ObjectHideFlags: 0
@@ -619,18 +613,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: add338991ae6a7d43919c0e3571caf3c, type: 3}
---- !u!114 &1460993940 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5560993912397424293, guid: b8bcbb6c207e8b34c827d3ba9f63771b,
-    type: 3}
-  m_PrefabInstance: {fileID: 417228911089445318}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 949e412602c870f4096768b77d2c4a86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1663908043
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Player : PlayerCombat
 {
-    public void Initialize()
+    public void Initialize(PlayerDataModel DataModel)
     {
+        this.DataModel = DataModel;
+
         InitializeCombat();
         InitializeMovement();
     }

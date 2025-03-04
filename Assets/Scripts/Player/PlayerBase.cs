@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayerComponents : MonoBehaviour
+public abstract class PlayerBase : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private Rigidbody playerRigidbody;
@@ -12,4 +12,6 @@ public abstract class PlayerComponents : MonoBehaviour
     protected Rigidbody PlayerRigidbody => playerRigidbody;
     protected Transform PlayerCamera => playerCamera;
     protected Animator Animator => animator;
+
+    public PlayerDataModel DataModel { get; protected set; }
 }
