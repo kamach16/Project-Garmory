@@ -30,7 +30,7 @@ public class ItemTooltip : MonoBehaviour
         if (currentItemData != itemData)
             currentItemData = itemData;
 
-        rectTransform.position = itemTransform.position - new Vector3(45, 40, 0);
+        rectTransform.position = itemTransform.position - new Vector3(45, 40, 0); // add offset
 
         gameObject.SetActive(true);
 

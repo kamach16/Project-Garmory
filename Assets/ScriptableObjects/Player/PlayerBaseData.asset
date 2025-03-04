@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab42375342e3a6f45acb6c5ca976af43, type: 3}
   m_Name: PlayerBaseData
   m_EditorClassIdentifier: 
-  damage: 0
-  healthPoints: 0
-  defense: 0
+  damage: 5
+  healthPoints: 10
+  defense: 2
   lifeSteal: 0
   criticalStrikeChance: 0
   attackSpeed: 0

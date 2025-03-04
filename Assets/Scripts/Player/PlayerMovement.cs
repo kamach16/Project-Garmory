@@ -13,7 +13,6 @@ public abstract class PlayerMovement : PlayerBase
     private Vector3 moveDirection;
 
     private float xRotation = 0f;
-
     private bool isGrounded;
 
     protected void InitializeMovement()

@@ -642,6 +642,7 @@ MonoBehaviour:
   healthBar: {fileID: 648351405983091891}
   animator: {fileID: 5461092267717519826}
   hitVFX: {fileID: 3548294705284132010}
+  bodyCollider: {fileID: 229612693315064454}
 --- !u!1 &4465261435664900599
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,7 +737,6 @@ GameObject:
   - component: {fileID: 3971624039993240616}
   - component: {fileID: 7984227382689416809}
   - component: {fileID: 5811668456045986875}
-  - component: {fileID: 5862784333431757317}
   m_Layer: 6
   m_Name: Nose
   m_TagString: Untagged
@@ -809,19 +809,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5862784333431757317
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5743943679995600325}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6075000455611365655
 GameObject:
   m_ObjectHideFlags: 0

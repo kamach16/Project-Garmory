@@ -10,6 +10,8 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] private Image itemImage;
     [SerializeField] private RectTransform rectTransform;
 
+    public event Action<ItemSlot> OnClick;
+
     private ItemTooltip itemTooltip;
     private ItemData itemData;
 
@@ -20,8 +22,6 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         get { return isEquipped; }
         set { isEquipped = value; }
     }
-
-    public event Action<ItemSlot> OnClick;
 
     public ItemData ItemData => itemData;
 

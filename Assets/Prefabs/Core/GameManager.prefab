@@ -44,11 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9965c68dda0e15a4c90fe8ab17a913ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
-  healthPoints: 0
-  defense: 0
-  lifeSteal: 0
-  criticalStrikeChance: 0
-  attackSpeed: 0
-  movementSpeed: 0
-  luck: 0
+  playerBaseData: {fileID: 11400000, guid: 2cf3d150abfad1949a421b4d16b67045, type: 2}

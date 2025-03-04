@@ -23,7 +23,7 @@ public class InventoryPanel : MonoBehaviour
     [SerializeField] private Transform ringSlot;
     [SerializeField] private Transform weaponSlot;
 
-    [Header("Stats")]
+    [Header("Stats texts")]
     [SerializeField] private TextMeshProUGUI damageText;
     [SerializeField] private TextMeshProUGUI healthPointsText;
     [SerializeField] private TextMeshProUGUI defenseText;
@@ -132,6 +132,11 @@ public class InventoryPanel : MonoBehaviour
         UpdateCharacterStatsTexts();
     }
 
+    private void PlayButton_OnClick()
+    {
+        Hide();
+    }
+
     private void EquipItem(ItemData itemData)
     {
         PlayerDataModel playerDataModel = player.DataModel;
@@ -160,9 +165,12 @@ public class InventoryPanel : MonoBehaviour
         playerDataModel.ModifyLuck(-itemData.Luck);
     }
 
-    private void PlayButton_OnClick()
+    public void InteractWithPanel()
     {
-        Hide();
+        if (isOpened)
+            Hide();
+        else
+            Show();
     }
 
     private void Hide()
@@ -193,14 +201,6 @@ public class InventoryPanel : MonoBehaviour
         crosshair.SetActive(false);
 
         isOpened = true;
-    }
-
-    public void InteractWithPanel()
-    {
-        if (isOpened)
-            Hide();
-        else
-            Show();
     }
 
     private void ResetItemSlotPosition(ItemSlot item)

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Player : PlayerCombat
 {
-    public void Initialize(PlayerDataModel DataModel)
+    public void Initialize(PlayerDataModel dataModel)
     {
-        this.DataModel = DataModel;
+        this.DataModel = dataModel;
 
         isInitialized = true;
 

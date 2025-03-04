@@ -5,12 +5,15 @@ using UnityEngine;
 public class Enemy : MonoBehaviour, IKillable
 {
     [SerializeField] private float healthPoints;
+
+    [Header("References")]
     [SerializeField] private HealthBar healthBar;
     [SerializeField] private Animator animator;
     [SerializeField] private ParticleSystem hitVFX;
+    [SerializeField] private Collider bodyCollider;
 
     private float maxHealth;
-    private bool isDead;
+    private bool isDead = false;
 
     private void Start()
     {
@@ -48,6 +51,8 @@ public class Enemy : MonoBehaviour, IKillable
         {
             animator.SetBool("death", true);
             healthBar.gameObject.SetActive(false);
+            bodyCollider.enabled = false;
+
             isDead = true;
 
         }

@@ -9,14 +9,14 @@ public class PanelsManager : MonoBehaviour
 
     public WaitingScreen WaitingScreen => waitingScreen;
 
+    public void Initialize(List<ItemData> items, Player player)
+    {
+        inventoryPanel.Initialize(items, player);
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))
             inventoryPanel.InteractWithPanel();
-    }
-
-    public void Initialize(List<ItemData> items, Player player)
-    {
-        inventoryPanel.Initialize(items, player);
     }
 }

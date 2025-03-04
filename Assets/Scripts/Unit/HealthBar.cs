@@ -10,6 +10,11 @@ public class HealthBar: MonoBehaviour
 
     private void Update()
     {
+        LookAtPlayer();
+    }
+
+    private void LookAtPlayer()
+    {
         transform.LookAt(2 * transform.position - Camera.main.transform.position);
     }
 

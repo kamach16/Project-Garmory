@@ -12,7 +12,6 @@ public class GameManager : Singleton<GameManager>
     private WaitingScreen waitingScreen;
     private PanelsManager panelsManager;
 
-
     public GameState CurrentGameState { get; private set; }
 
     protected override void Awake()
