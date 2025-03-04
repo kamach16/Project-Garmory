@@ -5,15 +5,7 @@ using System.Threading.Tasks;
 
 public class GameManager : Singleton<GameManager>
 {
-    [Header("Base Player Stats")]
-    [SerializeField] private int damage;
-    [SerializeField] private int healthPoints;
-    [SerializeField] private int defense;
-    [SerializeField] private float lifeSteal;
-    [SerializeField] private float criticalStrikeChance;
-    [SerializeField] private float attackSpeed;
-    [SerializeField] private float movementSpeed;
-    [SerializeField] private float luck;
+    [SerializeField] private PlayerBaseData playerBaseData;
 
     private List<ItemData> items = new List<ItemData>();
     private Player player;
@@ -62,14 +54,14 @@ public class GameManager : Singleton<GameManager>
 
     private void InitializePlayer()
     {
-        PlayerDataModel newPlayer = new PlayerDataModel(damage,
-            healthPoints,
-            defense,
-            lifeSteal,
-            criticalStrikeChance,
-            attackSpeed,
-            movementSpeed,
-            luck);
+        PlayerDataModel newPlayer = new PlayerDataModel(playerBaseData.Damage,
+            playerBaseData.HealthPoints,
+            playerBaseData.Defense,
+            playerBaseData.LifeSteal,
+            playerBaseData.CriticalStrikeChance,
+            playerBaseData.AttackSpeed,
+            playerBaseData.MovementSpeed,
+            playerBaseData.Luck);
 
         player.Initialize(newPlayer);
     }

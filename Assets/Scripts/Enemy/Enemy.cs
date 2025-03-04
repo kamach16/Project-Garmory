@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour, IKillable
     [SerializeField] private float healthPoints;
     [SerializeField] private HealthBar healthBar;
     [SerializeField] private Animator animator;
+    [SerializeField] private ParticleSystem hitVFX;
 
     private float maxHealth;
     private bool isDead;
@@ -41,6 +42,7 @@ public class Enemy : MonoBehaviour, IKillable
         healthPoints -= damage;
 
         healthBar.UpdateHealthBar(healthPoints, maxHealth);
+        hitVFX.Play();
 
         if (healthPoints <= 0)
         {
