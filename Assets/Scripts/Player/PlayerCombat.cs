@@ -8,20 +8,18 @@ public abstract class PlayerCombat : PlayerMovement
     [SerializeField] private float attackRange;
     [SerializeField] private int damage;
 
-    private bool isInitialized = false;
-
     protected void InitializeCombat()
     {
-        isInitialized = true;
+        
     }
 
     protected void Attack()
     {
-        if (!isInitialized)
+        if (GameManager.Instance.IsAtThisGameState(GameState.Paused))
             return;
 
         if (Input.GetButtonDown("Fire1") && 
-            !Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) // this condition prevents from override trigger event
+            !Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) // this condition prevents from override trigger
             Animator.SetTrigger("attack");
     }
 

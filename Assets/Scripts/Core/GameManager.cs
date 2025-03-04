@@ -3,41 +3,59 @@ using UnityEngine;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    [SerializeField] private InventoryPanel inventoryPanel;
-    [SerializeField] private WaitingScreen waitingScreen;
+    public GameState CurrentGameState { get; private set; }
 
-    private List<Item> items = new List<Item>();
+    private List<ItemData> items = new List<ItemData>();
     private Player player;
+    private WaitingScreen waitingScreen;
+    private PanelsManager panelsManager;
 
-    async void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
+    }
+
+    async void Start()
+    {
+        panelsManager = FindObjectOfType<PanelsManager>();
+        waitingScreen = panelsManager.WaitingScreen;
+
         waitingScreen.Show();
 
-        items = await GetAllItemsList();
         player = FindObjectOfType<Player>();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        items = await GetAllItemsList();
 
         InitializeSystems();
 
         waitingScreen.Hide();
     }
 
+    public void ChangeCurrentGameState(GameState newGameState)
+    {
+        CurrentGameState = newGameState;
+    }
+
+    public bool IsAtThisGameState(GameState targetGameState)
+    {
+        return CurrentGameState == targetGameState;
+    }
+
     private void InitializeSystems() // execute always after "GetAllItemsList" method
     {
         player.Initialize();
-        inventoryPanel.Initialize(items, player);
+        panelsManager.Initialize(items, player);
     }
 
-    private async Task<List<Item>> GetAllItemsList()
+    private async Task<List<ItemData>> GetAllItemsList()
     {
         GameServerMock gameServerMock = new GameServerMock();
         string jsonString = await gameServerMock.GetItemsAsync();
 
         JObject rootObject = JObject.Parse(jsonString);
-        List<Item> itemsArray = ((JArray)rootObject["Items"]).ToObject<List<Item>>();
+        List<ItemData> itemsArray = ((JArray)rootObject["Items"]).ToObject<List<ItemData>>();
 
         return itemsArray;
     }

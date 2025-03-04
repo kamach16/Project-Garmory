@@ -14,6 +14,11 @@ public abstract class PlayerMovement : PlayerComponents
 
     private float xRotation = 0f;
 
+    protected void InitializeMovement()
+    {
+        
+    }
+
     protected void MoveInput()
     {
         Vector2 targetInput = new Vector2(

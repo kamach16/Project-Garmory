@@ -6,6 +6,8 @@ public class WaitingScreen : MonoBehaviour
 {
     public void Show()
     {
+        GameManager.Instance.ChangeCurrentGameState(GameState.Paused);
+
         gameObject.SetActive(true);
         Time.timeScale = 0;
     }
@@ -13,6 +15,5 @@ public class WaitingScreen : MonoBehaviour
     public void Hide()
     {
         gameObject.SetActive(false);
-        Time.timeScale = 1;
     }
 }

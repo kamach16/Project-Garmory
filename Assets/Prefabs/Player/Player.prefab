@@ -589,7 +589,7 @@ MonoBehaviour:
   playerCamera: {fileID: 667478675497273517}
   animator: {fileID: 7016213585903072540}
   moveSpeed: 10
-  mouseSensitivity: 150
+  mouseSensitivity: 250
   moveAcceleration: 300
   attackRange: 2.5
   damage: 16

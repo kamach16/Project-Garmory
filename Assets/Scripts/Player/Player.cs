@@ -7,6 +7,7 @@ public class Player : PlayerCombat
     public void Initialize()
     {
         InitializeCombat();
+        InitializeMovement();
     }
 
     private void Update()
