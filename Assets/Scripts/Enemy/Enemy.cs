@@ -15,10 +15,14 @@ public class Enemy : MonoBehaviour, IKillable
     private float maxHealth;
     private bool isDead = false;
 
+    private Camera mainCamera;
+
     private void Start()
     {
         healthPoints = Random.Range(50, 100);
         maxHealth = healthPoints;
+
+        mainCamera = Camera.main;
     }
 
     private void Update()
@@ -31,7 +35,7 @@ public class Enemy : MonoBehaviour, IKillable
         if (isDead)
             return;
 
-        Vector3 lookDirection = transform.position - Camera.main.transform.position;
+        Vector3 lookDirection = transform.position - mainCamera.transform.position;
         lookDirection.y = 0;
 
         transform.rotation = Quaternion.LookRotation(lookDirection);

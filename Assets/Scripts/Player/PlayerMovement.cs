@@ -46,7 +46,7 @@ public abstract class PlayerMovement : PlayerBase
 
     protected void CheckIsGrounded()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, 2))
+        if (Physics.Raycast(transform.position, Vector3.down, 2.5f))
             isGrounded = true;
         else
             isGrounded = false;

@@ -8,6 +8,13 @@ public class HealthBar: MonoBehaviour
 {
     [SerializeField] private Image fillImage;
 
+    private Camera mainCamera;
+
+    private void Start()
+    {
+        mainCamera = Camera.main;
+    }
+
     private void Update()
     {
         LookAtPlayer();
@@ -15,7 +22,7 @@ public class HealthBar: MonoBehaviour
 
     private void LookAtPlayer()
     {
-        transform.LookAt(2 * transform.position - Camera.main.transform.position);
+        transform.LookAt(2 * transform.position - mainCamera.transform.position);
     }
 
     public void UpdateHealthBar(float currentHealth, float maxHealth)
