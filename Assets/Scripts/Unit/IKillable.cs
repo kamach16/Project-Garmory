@@ -1,4 +1,7 @@
-public interface IKillable
+namespace Unit
 {
-    void DealDamage(int damage);
+    public interface IKillable
+    {
+        void DealDamage(int damage);
+    }
 }

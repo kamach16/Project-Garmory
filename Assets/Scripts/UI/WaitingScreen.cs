@@ -1,19 +1,23 @@
+using Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaitingScreen : MonoBehaviour
+namespace UI
 {
-    public void Show()
+    public class WaitingScreen : MonoBehaviour
     {
-        GameManager.Instance.ChangeCurrentGameState(GameState.Paused);
+        public void Show()
+        {
+            GameManager.Instance.ChangeCurrentGameState(GameState.Paused);
 
-        gameObject.SetActive(true);
-        Time.timeScale = 0;
-    }
+            gameObject.SetActive(true);
+            Time.timeScale = 0;
+        }
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

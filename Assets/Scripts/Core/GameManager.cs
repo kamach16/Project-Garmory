@@ -2,77 +2,83 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
+using Items;
+using Player;
+using UI;
 
-public class GameManager : Singleton<GameManager>
+namespace Core
 {
-    [SerializeField] private PlayerBaseData playerBaseData;
-
-    private List<ItemData> items = new List<ItemData>();
-    private Player player;
-    private WaitingScreen waitingScreen;
-    private PanelsManager panelsManager;
-
-    public GameState CurrentGameState { get; private set; }
-
-    protected override void Awake()
+    public class GameManager : Singleton<GameManager>
     {
-        base.Awake();
-        DontDestroyOnLoad(gameObject);
-    }
+        [SerializeField] private PlayerBaseData playerBaseData;
 
-    async void Start()
-    {
-        panelsManager = FindObjectOfType<PanelsManager>();
-        waitingScreen = panelsManager.WaitingScreen;
+        private List<ItemData> items = new List<ItemData>();
+        private PlayerController player;
+        private WaitingScreen waitingScreen;
+        private PanelsManager panelsManager;
 
-        waitingScreen.Show();
+        public GameState CurrentGameState { get; private set; }
 
-        player = FindObjectOfType<Player>();
-        items = await GetAllItemsList();
+        protected override void Awake()
+        {
+            base.Awake();
+            DontDestroyOnLoad(gameObject);
+        }
 
-        InitializeSystems();
+        async void Start()
+        {
+            panelsManager = FindObjectOfType<PanelsManager>();
+            waitingScreen = panelsManager.WaitingScreen;
 
-        waitingScreen.Hide();
-    }
+            waitingScreen.Show();
 
-    public void ChangeCurrentGameState(GameState newGameState)
-    {
-        CurrentGameState = newGameState;
-    }
+            player = FindObjectOfType<PlayerController>();
+            items = await GetAllItemsList();
 
-    public bool IsAtThisGameState(GameState targetGameState)
-    {
-        return CurrentGameState == targetGameState;
-    }
+            InitializeSystems();
 
-    private void InitializeSystems() // execute always after "GetAllItemsList" method
-    {
-        InitializePlayer();
-        panelsManager.Initialize(items, player);
-    }
+            waitingScreen.Hide();
+        }
 
-    private void InitializePlayer()
-    {
-        PlayerDataModel newPlayer = new PlayerDataModel(playerBaseData.Damage,
-            playerBaseData.HealthPoints,
-            playerBaseData.Defense,
-            playerBaseData.LifeSteal,
-            playerBaseData.CriticalStrikeChance,
-            playerBaseData.AttackSpeed,
-            playerBaseData.MovementSpeed,
-            playerBaseData.Luck);
+        public void ChangeCurrentGameState(GameState newGameState)
+        {
+            CurrentGameState = newGameState;
+        }
 
-        player.Initialize(newPlayer);
-    }
+        public bool IsAtThisGameState(GameState targetGameState)
+        {
+            return CurrentGameState == targetGameState;
+        }
 
-    private async Task<List<ItemData>> GetAllItemsList()
-    {
-        GameServerMock gameServerMock = new GameServerMock();
-        string jsonString = await gameServerMock.GetItemsAsync();
+        private void InitializeSystems() // execute always after "GetAllItemsList" method
+        {
+            InitializePlayer();
+            panelsManager.Initialize(items, player);
+        }
 
-        JObject rootObject = JObject.Parse(jsonString);
-        List<ItemData> itemsArray = ((JArray)rootObject["Items"]).ToObject<List<ItemData>>();
+        private void InitializePlayer()
+        {
+            PlayerDataModel newPlayer = new PlayerDataModel(playerBaseData.Damage,
+                playerBaseData.HealthPoints,
+                playerBaseData.Defense,
+                playerBaseData.LifeSteal,
+                playerBaseData.CriticalStrikeChance,
+                playerBaseData.AttackSpeed,
+                playerBaseData.MovementSpeed,
+                playerBaseData.Luck);
 
-        return itemsArray;
+            player.Initialize(newPlayer);
+        }
+
+        private async Task<List<ItemData>> GetAllItemsList()
+        {
+            GameServerMock gameServerMock = new GameServerMock();
+            string jsonString = await gameServerMock.GetItemsAsync();
+
+            JObject rootObject = JObject.Parse(jsonString);
+            List<ItemData> itemsArray = ((JArray)rootObject["Items"]).ToObject<List<ItemData>>();
+
+            return itemsArray;
+        }
     }
 }

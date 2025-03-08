@@ -4,29 +4,32 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class HealthBar: MonoBehaviour
+namespace Unit
 {
-    [SerializeField] private Image fillImage;
-
-    private Camera mainCamera;
-
-    private void Start()
+    public class HealthBar : MonoBehaviour
     {
-        mainCamera = Camera.main;
-    }
+        [SerializeField] private Image fillImage;
 
-    private void Update()
-    {
-        LookAtPlayer();
-    }
+        private Camera mainCamera;
 
-    private void LookAtPlayer()
-    {
-        transform.LookAt(2 * transform.position - mainCamera.transform.position);
-    }
+        private void Start()
+        {
+            mainCamera = Camera.main;
+        }
 
-    public void UpdateHealthBar(float currentHealth, float maxHealth)
-    {
-        fillImage.fillAmount = currentHealth / maxHealth;
+        private void Update()
+        {
+            LookAtPlayer();
+        }
+
+        private void LookAtPlayer()
+        {
+            transform.LookAt(2 * transform.position - mainCamera.transform.position);
+        }
+
+        public void UpdateHealthBar(float currentHealth, float maxHealth)
+        {
+            fillImage.fillAmount = currentHealth / maxHealth;
+        }
     }
 }

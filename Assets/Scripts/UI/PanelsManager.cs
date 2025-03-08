@@ -1,22 +1,28 @@
+using Items;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Player;
+using UI.Inventory;
 
-public class PanelsManager : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private InventoryPanel inventoryPanel;
-    [SerializeField] private WaitingScreen waitingScreen;
-
-    public WaitingScreen WaitingScreen => waitingScreen;
-
-    public void Initialize(List<ItemData> items, Player player)
+    public class PanelsManager : MonoBehaviour
     {
-        inventoryPanel.Initialize(items, player);
-    }
+        [SerializeField] private InventoryPanel inventoryPanel;
+        [SerializeField] private WaitingScreen waitingScreen;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-            inventoryPanel.InteractWithPanel();
+        public WaitingScreen WaitingScreen => waitingScreen;
+
+        public void Initialize(List<ItemData> items, PlayerController player)
+        {
+            inventoryPanel.Initialize(items, player);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.I))
+                inventoryPanel.InteractWithPanel();
+        }
     }
 }

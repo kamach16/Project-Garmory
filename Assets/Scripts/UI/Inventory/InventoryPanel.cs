@@ -1,240 +1,249 @@
+using Core;
+using Items;
+using Player;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UI.Inventory.Item;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryPanel : MonoBehaviour
+namespace UI.Inventory
 {
-    [SerializeField] private GameObject itemSlotPrefab;
-
-    [Header("Components")]
-    [SerializeField] private Transform itemsParent;
-    [SerializeField] private Button playButton;
-    [SerializeField] private TextMeshProUGUI playButtonText;
-    [SerializeField] private GameObject crosshair;
-    [SerializeField] private ItemTooltip itemTooltip;
-
-    [Header("Character items slot")]
-    [SerializeField] private Transform helmetSlot;
-    [SerializeField] private Transform necklaceSlot;
-    [SerializeField] private Transform armorSlot;
-    [SerializeField] private Transform bootsSlot;
-    [SerializeField] private Transform ringSlot;
-    [SerializeField] private Transform weaponSlot;
-
-    [Header("Stats texts")]
-    [SerializeField] private TextMeshProUGUI damageText;
-    [SerializeField] private TextMeshProUGUI healthPointsText;
-    [SerializeField] private TextMeshProUGUI defenseText;
-    [SerializeField] private TextMeshProUGUI lifeStealText;
-    [SerializeField] private TextMeshProUGUI criticalStrikeChanceText;
-    [SerializeField] private TextMeshProUGUI attackSpeedText;
-    [SerializeField] private TextMeshProUGUI movementSpeedText;
-    [SerializeField] private TextMeshProUGUI luckText;
-
-    private List<ItemData> items = new List<ItemData>();
-    private Player player;
-    private List<Sprite> itemSprites = new List<Sprite>();
-
-    private bool isOpened;
-    private bool startedGame = false;
-
-    private void OnDestroy()
+    public class InventoryPanel : MonoBehaviour
     {
-        playButton.onClick.RemoveListener(PlayButton_OnClick);
-    }
+        [SerializeField] private GameObject itemSlotPrefab;
 
-    public void Initialize(List<ItemData> items, Player player)
-    {
-        this.items = items;
-        this.player = player;
+        [Header("Components")]
+        [SerializeField] private Transform itemsParent;
+        [SerializeField] private Button playButton;
+        [SerializeField] private TextMeshProUGUI playButtonText;
+        [SerializeField] private GameObject crosshair;
+        [SerializeField] private ItemTooltip itemTooltip;
 
-        itemSprites = new List<Sprite>(Resources.LoadAll("UI/Items", typeof(Sprite)).Cast<Sprite>().ToList());
+        [Header("Character items slot")]
+        [SerializeField] private Transform helmetSlot;
+        [SerializeField] private Transform necklaceSlot;
+        [SerializeField] private Transform armorSlot;
+        [SerializeField] private Transform bootsSlot;
+        [SerializeField] private Transform ringSlot;
+        [SerializeField] private Transform weaponSlot;
 
-        playButton.onClick.AddListener(PlayButton_OnClick);
+        [Header("Stats texts")]
+        [SerializeField] private TextMeshProUGUI damageText;
+        [SerializeField] private TextMeshProUGUI healthPointsText;
+        [SerializeField] private TextMeshProUGUI defenseText;
+        [SerializeField] private TextMeshProUGUI lifeStealText;
+        [SerializeField] private TextMeshProUGUI criticalStrikeChanceText;
+        [SerializeField] private TextMeshProUGUI attackSpeedText;
+        [SerializeField] private TextMeshProUGUI movementSpeedText;
+        [SerializeField] private TextMeshProUGUI luckText;
 
-        InitializeItems();
+        private List<ItemData> items = new List<ItemData>();
+        private PlayerController player;
+        private List<Sprite> itemSprites = new List<Sprite>();
 
-        Show();
-    }
+        private bool isOpened;
+        private bool startedGame = false;
 
-    private void InitializeItems()
-    {
-        foreach (Transform child in itemsParent)
+        private void OnDestroy()
         {
-            Destroy(child.gameObject);
+            playButton.onClick.RemoveListener(PlayButton_OnClick);
         }
 
-        foreach (var item in items)
+        public void Initialize(List<ItemData> items, PlayerController player)
         {
-            ItemSlot newItem = Instantiate(itemSlotPrefab, itemsParent).GetComponent<ItemSlot>();
-            Sprite itemSprite = itemSprites.FirstOrDefault(x => x.name == item.Name);
+            this.items = items;
+            this.player = player;
 
-            newItem.OnClick += x => ItemSlot_OnClick(x, item);
+            itemSprites = new List<Sprite>(Resources.LoadAll("UI/Items", typeof(Sprite)).Cast<Sprite>().ToList());
 
-            newItem.Initialize(itemSprite, itemTooltip, item);
-        }
+            playButton.onClick.AddListener(PlayButton_OnClick);
 
-        UpdateCharacterStatsTexts();
-    }
+            InitializeItems();
 
-    private void ItemSlot_OnClick(ItemSlot item, ItemData itemData)
-    {
-        Transform newParent = null;
-
-        if (!item.IsEquipped)
-        {
-            switch (itemData.Category)
-            {
-                case "Armor":
-                    newParent = armorSlot;
-                    break;
-                case "Boots":
-                    newParent = bootsSlot;
-                    break;
-                case "Helmet":
-                    newParent = helmetSlot;
-                    break;
-                case "Necklace":
-                    newParent = necklaceSlot;
-                    break;
-                case "Ring":
-                    newParent = ringSlot;
-                    break;
-                case "Weapon":
-                    newParent = weaponSlot;
-                    break;
-                default:
-                    break;
-            }
-
-            if (newParent.childCount > 0) // override character item slot
-            {
-                ItemSlot itemToDequip = newParent.GetChild(0).GetComponent<ItemSlot>();
-
-                itemToDequip.transform.SetParent(itemsParent);
-                DequipItem(itemToDequip.ItemData);
-                itemToDequip.IsEquipped = false;
-            }
-
-            EquipItem(itemData);
-        }
-        else
-        {
-            newParent = itemsParent;
-
-            DequipItem(itemData);
-        }
-
-        item.transform.SetParent(newParent);
-        ResetItemSlotPosition(item);
-
-        UpdateCharacterStatsTexts();
-    }
-
-    private void PlayButton_OnClick()
-    {
-        Hide();
-
-        if (!startedGame) // condition for entering the game
-        {
-            playButtonText.text = "Back to dungeon";
-            startedGame = true;
-        }
-    }
-
-    private void EquipItem(ItemData itemData)
-    {
-        PlayerDataModel playerDataModel = player.DataModel;
-
-        playerDataModel.ModifyDamage(itemData.Damage);
-        playerDataModel.ModifyHealthPoints(itemData.HealthPoints);
-        playerDataModel.ModifyDefense(itemData.Defense);
-        playerDataModel.ModifyLifeSteal(itemData.LifeSteal);
-        playerDataModel.ModifyCriticalStrikeChance(itemData.CriticalStrikeChance);
-        playerDataModel.ModifyAttackSpeed(itemData.AttackSpeed);
-        playerDataModel.ModifyMovementSpeed(itemData.MovementSpeed);
-        playerDataModel.ModifyLuck(itemData.Luck);
-    }
-
-    private void DequipItem(ItemData itemData)
-    {
-        PlayerDataModel playerDataModel = player.DataModel;
-
-        playerDataModel.ModifyDamage(-itemData.Damage);
-        playerDataModel.ModifyHealthPoints(-itemData.HealthPoints);
-        playerDataModel.ModifyDefense(-itemData.Defense);
-        playerDataModel.ModifyLifeSteal(-itemData.LifeSteal);
-        playerDataModel.ModifyCriticalStrikeChance(-itemData.CriticalStrikeChance);
-        playerDataModel.ModifyAttackSpeed(-itemData.AttackSpeed);
-        playerDataModel.ModifyMovementSpeed(-itemData.MovementSpeed);
-        playerDataModel.ModifyLuck(-itemData.Luck);
-    }
-
-    public void InteractWithPanel()
-    {
-        if (!startedGame)
-            return;
-
-        if (isOpened)
-            Hide();
-        else
             Show();
-    }
+        }
 
-    private void Hide()
-    {
-        Time.timeScale = 1;
+        private void InitializeItems()
+        {
+            foreach (Transform child in itemsParent)
+            {
+                Destroy(child.gameObject);
+            }
 
-        GameManager.Instance.ChangeCurrentGameState(GameState.Playing);
+            foreach (var item in items)
+            {
+                ItemSlot newItem = Instantiate(itemSlotPrefab, itemsParent).GetComponent<ItemSlot>();
+                Sprite itemSprite = itemSprites.FirstOrDefault(x => x.name == item.Name);
 
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+                newItem.OnClick += x => ItemSlot_OnClick(x, item);
 
-        gameObject.SetActive(false);
-        crosshair.SetActive(true);
+                newItem.Initialize(itemSprite, itemTooltip, item);
+            }
 
-        isOpened = false;
-    }
+            UpdateCharacterStatsTexts();
+        }
 
-    private void Show()
-    {
-        Time.timeScale = 0;
+        private void ItemSlot_OnClick(ItemSlot item, ItemData itemData)
+        {
+            Transform newParent = null;
 
-        GameManager.Instance.ChangeCurrentGameState(GameState.Paused);
+            if (!item.IsEquipped)
+            {
+                switch (itemData.Category)
+                {
+                    case "Armor":
+                        newParent = armorSlot;
+                        break;
+                    case "Boots":
+                        newParent = bootsSlot;
+                        break;
+                    case "Helmet":
+                        newParent = helmetSlot;
+                        break;
+                    case "Necklace":
+                        newParent = necklaceSlot;
+                        break;
+                    case "Ring":
+                        newParent = ringSlot;
+                        break;
+                    case "Weapon":
+                        newParent = weaponSlot;
+                        break;
+                    default:
+                        break;
+                }
 
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+                if (newParent.childCount > 0) // override character item slot
+                {
+                    ItemSlot itemToDequip = newParent.GetChild(0).GetComponent<ItemSlot>();
 
-        gameObject.SetActive(true);
-        crosshair.SetActive(false);
+                    itemToDequip.transform.SetParent(itemsParent);
+                    DequipItem(itemToDequip.ItemData);
+                    itemToDequip.IsEquipped = false;
+                }
 
-        isOpened = true;
-    }
+                EquipItem(itemData);
+            }
+            else
+            {
+                newParent = itemsParent;
 
-    private void ResetItemSlotPosition(ItemSlot item)
-    {
-        RectTransform itemRectTransform = item.GetComponent<RectTransform>();
+                DequipItem(itemData);
+            }
 
-        itemRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-        itemRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            item.transform.SetParent(newParent);
+            ResetItemSlotPosition(item);
 
-        itemRectTransform.anchoredPosition = Vector2.zero;
-    }
+            UpdateCharacterStatsTexts();
+        }
 
-    private void UpdateCharacterStatsTexts()
-    {
-        PlayerDataModel playerDataModel = player.DataModel;
+        private void PlayButton_OnClick()
+        {
+            Hide();
 
-        damageText.text = $"DAMAGE: {playerDataModel.Damage}";
-        healthPointsText.text = $"HP: {playerDataModel.HealthPoints}";
-        defenseText.text = $"DEFENSE: {playerDataModel.Defense}";
-        lifeStealText.text = $"LIFE STEAL: {playerDataModel.LifeSteal}%";
-        criticalStrikeChanceText.text = $"CRIT CHANCE: {playerDataModel.CriticalStrikeChance}%";
-        attackSpeedText.text = $"ATTACK SPEED: {playerDataModel.AttackSpeed}%";
-        movementSpeedText.text = $"MOVE SPEED: {playerDataModel.MovementSpeed}%";
-        luckText.text = $"LUCK: {playerDataModel.Luck}%";
+            if (!startedGame) // condition for entering the game
+            {
+                playButtonText.text = "Back to dungeon";
+                startedGame = true;
+            }
+        }
+
+        private void EquipItem(ItemData itemData)
+        {
+            PlayerDataModel playerDataModel = player.DataModel;
+
+            playerDataModel.ModifyDamage(itemData.Damage);
+            playerDataModel.ModifyHealthPoints(itemData.HealthPoints);
+            playerDataModel.ModifyDefense(itemData.Defense);
+            playerDataModel.ModifyLifeSteal(itemData.LifeSteal);
+            playerDataModel.ModifyCriticalStrikeChance(itemData.CriticalStrikeChance);
+            playerDataModel.ModifyAttackSpeed(itemData.AttackSpeed);
+            playerDataModel.ModifyMovementSpeed(itemData.MovementSpeed);
+            playerDataModel.ModifyLuck(itemData.Luck);
+        }
+
+        private void DequipItem(ItemData itemData)
+        {
+            PlayerDataModel playerDataModel = player.DataModel;
+
+            playerDataModel.ModifyDamage(-itemData.Damage);
+            playerDataModel.ModifyHealthPoints(-itemData.HealthPoints);
+            playerDataModel.ModifyDefense(-itemData.Defense);
+            playerDataModel.ModifyLifeSteal(-itemData.LifeSteal);
+            playerDataModel.ModifyCriticalStrikeChance(-itemData.CriticalStrikeChance);
+            playerDataModel.ModifyAttackSpeed(-itemData.AttackSpeed);
+            playerDataModel.ModifyMovementSpeed(-itemData.MovementSpeed);
+            playerDataModel.ModifyLuck(-itemData.Luck);
+        }
+
+        public void InteractWithPanel()
+        {
+            if (!startedGame)
+                return;
+
+            if (isOpened)
+                Hide();
+            else
+                Show();
+        }
+
+        private void Hide()
+        {
+            Time.timeScale = 1;
+
+            GameManager.Instance.ChangeCurrentGameState(GameState.Playing);
+
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+
+            gameObject.SetActive(false);
+            crosshair.SetActive(true);
+
+            isOpened = false;
+        }
+
+        private void Show()
+        {
+            Time.timeScale = 0;
+
+            GameManager.Instance.ChangeCurrentGameState(GameState.Paused);
+
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
+            gameObject.SetActive(true);
+            crosshair.SetActive(false);
+
+            isOpened = true;
+        }
+
+        private void ResetItemSlotPosition(ItemSlot item)
+        {
+            RectTransform itemRectTransform = item.GetComponent<RectTransform>();
+
+            itemRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            itemRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+
+            itemRectTransform.anchoredPosition = Vector2.zero;
+        }
+
+        private void UpdateCharacterStatsTexts()
+        {
+            PlayerDataModel playerDataModel = player.DataModel;
+
+            // I did percentages values with two decimal places because imo it looks much better than whole float number
+            // and I didn't know if values should be rounded or not so I didn't round them
+            damageText.text = $"DAMAGE: {playerDataModel.Damage}";
+            healthPointsText.text = $"HP: {playerDataModel.HealthPoints}";
+            defenseText.text = $"DEFENSE: {playerDataModel.Defense}";
+            lifeStealText.text = $"LIFE STEAL: {playerDataModel.LifeSteal:0.00}%";
+            criticalStrikeChanceText.text = $"CRIT CHANCE: {playerDataModel.CriticalStrikeChance:0.00}%";
+            attackSpeedText.text = $"ATTACK SPEED: {playerDataModel.AttackSpeed:0.00}%";
+            movementSpeedText.text = $"MOVE SPEED: {playerDataModel.MovementSpeed:0.00}%";
+            luckText.text = $"LUCK: {playerDataModel.Luck:0.00}%";
+        }
     }
 }

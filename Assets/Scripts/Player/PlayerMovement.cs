@@ -2,75 +2,78 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayerMovement : PlayerBase
+namespace Player
 {
-    [Header("Moving")]
-    [SerializeField] private float mouseSensitivity;
-    [SerializeField] private float moveAcceleration;
-    [SerializeField] private float moveSpeed;
-
-    private Vector2 currentInput = Vector2.zero;
-    private Vector3 moveDirection;
-
-    private float xRotation = 0f;
-    private bool isGrounded;
-
-    protected void InitializeMovement()
+    public abstract class PlayerMovement : PlayerBase
     {
-        
-    }
+        [Header("Moving")]
+        [SerializeField] private float mouseSensitivity;
+        [SerializeField] private float moveAcceleration;
+        [SerializeField] private float moveSpeed;
 
-    protected void MoveInput()
-    {
-        Vector2 targetInput = new Vector2(
-            Input.GetAxisRaw("Horizontal"),
-            Input.GetAxisRaw("Vertical")
-        );
+        private Vector2 currentInput = Vector2.zero;
+        private Vector3 moveDirection;
 
-        currentInput = Vector2.Lerp(
-            currentInput,
-            targetInput,
-            moveAcceleration * Time.fixedDeltaTime
-        );
+        private float xRotation = 0f;
+        private bool isGrounded;
 
-        moveDirection = (transform.right * currentInput.x + transform.forward * currentInput.y).normalized;
-    }
-
-    protected void Move()
-    {
-        if (!isInitialized)
-            return;
-
-        PlayerRigidbody.velocity = new Vector3(moveDirection.x * moveSpeed, PlayerRigidbody.velocity.y, moveDirection.z * moveSpeed);
-    }
-
-    protected void CheckIsGrounded()
-    {
-        if (Physics.Raycast(transform.position, Vector3.down, 2.5f))
-            isGrounded = true;
-        else
-            isGrounded = false;
-    }
-
-    protected void Jump()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        protected void InitializeMovement()
         {
-            PlayerRigidbody.AddForce(Vector3.up * 10, ForceMode.Impulse);
-            isGrounded = false;
+
         }
-    }
 
-    protected void CameraRotation()
-    {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        protected void MoveInput()
+        {
+            Vector2 targetInput = new Vector2(
+                Input.GetAxisRaw("Horizontal"),
+                Input.GetAxisRaw("Vertical")
+            );
 
-        transform.Rotate(Vector3.up * mouseX);
+            currentInput = Vector2.Lerp(
+                currentInput,
+                targetInput,
+                moveAcceleration * Time.fixedDeltaTime
+            );
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            moveDirection = (transform.right * currentInput.x + transform.forward * currentInput.y).normalized;
+        }
 
-        PlayerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        protected void Move()
+        {
+            if (!isInitialized)
+                return;
+
+            PlayerRigidbody.velocity = new Vector3(moveDirection.x * moveSpeed, PlayerRigidbody.velocity.y, moveDirection.z * moveSpeed);
+        }
+
+        protected void CheckIsGrounded()
+        {
+            if (Physics.Raycast(transform.position, Vector3.down, 2.5f))
+                isGrounded = true;
+            else
+                isGrounded = false;
+        }
+
+        protected void Jump()
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+            {
+                PlayerRigidbody.AddForce(Vector3.up * 10, ForceMode.Impulse);
+                isGrounded = false;
+            }
+        }
+
+        protected void CameraRotation()
+        {
+            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+
+            transform.Rotate(Vector3.up * mouseX);
+
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+            PlayerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        }
     }
 }

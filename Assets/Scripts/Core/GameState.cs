@@ -1,6 +1,9 @@
-public enum GameState
+namespace Core
 {
-    Playing,
-    Paused
+    public enum GameState
+    {
+        Playing,
+        Paused
+    }
 }
 
